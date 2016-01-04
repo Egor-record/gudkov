@@ -113,7 +113,7 @@ gulp.task('favicon', function(){
 });
 
 // Fonts
-gulp.task('favicon', function(){
+gulp.task('fonts', function(){
   return gulp.src('src/fonts/*')
   .on('error', console.log)
   .pipe(gulp.dest('build/css/fonts/'))
