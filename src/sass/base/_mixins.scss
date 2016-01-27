@@ -116,44 +116,55 @@
           transform-origin: $origin;
 }
 
+// 1600
 @mixin desktop-big {
   @media only screen and (max-width: 100em) {
     @content;
   }
 }
 
+// 1240
 @mixin desktop {
   @media only screen and (max-width: 77em) {
     @content;
   }
 }
 
+// 1040
 @mixin tablets {
   @media only screen and (max-width: 65em) {
     @content;
   }
 }
 
+// 904
 @mixin small-tablets-h {
   @media only screen and (max-width: 56.5em) {
     @content;
   }
 }
-
+// 804
 @mixin small-tablets {
   @media only screen and (max-width: 50em) {
     @content;
   }
 }
 
+// 600
 @mixin mobile {
   @media only screen and (max-width: 37.5em) {
     @content;
   }
-
-@mixin small-mobile {
+}
+// 360
+@mixin mobile-s {
   @media only screen and (max-width: 22.5em) {
     @content;
   }
 }
+
+@mixin breakpoint($width){
+  @media only screen and (max-width: ($width / 16) + em) {
+    @content;
+  } 
 }

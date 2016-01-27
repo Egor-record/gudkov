@@ -33,11 +33,12 @@ gulp.task('jade-templates', function() {
 gulp.task('sass-dev', function() {
   return gulp.src('src/sass/**/*.scss')
     
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
     
     .pipe(sass({
       style: 'compressed',
-      errLogToConsole: true
+      errLogToConsole: true,
+      sourcemaps : false
       }))
     .on('error', sass.logError)
     .pipe(autoprefixer({
@@ -45,7 +46,7 @@ gulp.task('sass-dev', function() {
       cascade: true
      }))
     
-    .pipe(sourcemaps.write())
+    // .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/css/'))
     .pipe(browserSync.stream());
 });
