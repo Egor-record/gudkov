@@ -6,21 +6,21 @@ var gulp = require('gulp'), // Сам Gulp
     
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
-    cssShorthand = require('gulp-shorthand'), // Оптимизация
-    minifyCSS = require('gulp-more-css'), //Минификация CSS
-    uncss = require('gulp-uncss'),
+    cssnano = require('gulp-cssnano'), //Минификация CSS
     autoprefixer = require('gulp-autoprefixer'), // Автопрефиксы CSS
     
     imagemin = require('gulp-imagemin'),// Сжатие JPG, PNG, SVG, GIF
     
     uglify = require('gulp-uglify'), // Минификация JS
 
+    plumber = require('gulp-plumber'),
     watch = require('gulp-watch');
 
 
 //Собираем Jade ( html )
 gulp.task('jade-templates', function() {
   return gulp.src(['./src/jade/*.jade','!./src/jade/_*.jade'])
+    .pipe(plumber())
     .pipe(jade({
        pretty: true
     }))
@@ -32,7 +32,7 @@ gulp.task('jade-templates', function() {
 // Собираем CSS из SASS файлов
 gulp.task('sass-dev', function() {
   return gulp.src('src/sass/**/*.scss')
-    
+    .pipe(plumber())
     // .pipe(sourcemaps.init())
     
     .pipe(sass({
@@ -45,7 +45,7 @@ gulp.task('sass-dev', function() {
       browsers: ['last 3 versions'],
       cascade: true
      }))
-    
+    .pipe(cssnano())
     // .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/css/'))
     .pipe(browserSync.stream());
@@ -53,25 +53,19 @@ gulp.task('sass-dev', function() {
 
 gulp.task('sass-prod', function() {
   return gulp.src('src/sass/**/*.scss')
-
+		.pipe(plumber())
     .pipe(sourcemaps.init())
     
     .pipe(sass({
       style: 'compressed',
       errLogToConsole: true
       }))
-    .on('error', sass.logError)
-    .pipe(uncss({
-          html: ['build/**/*.html']
-      }))
-    .pipe(cssShorthand())
 
     .pipe(autoprefixer({
       browsers: ['last 3 versions'],
       cascade: true
      }))
     .pipe(sourcemaps.write())
-    .pipe(minifyCSS())
     .pipe(gulp.dest('build/css/'))
     .pipe(browserSync.stream());
 });
@@ -86,7 +80,7 @@ gulp.task('img', function() {
 //Копируем JS
 gulp.task('js', function(){
   return gulp.src('src/js/*.js')
-  .on('error', console.log)
+  .pipe(plumber())
   .pipe(uglify())
   .pipe(concat('script.js'))
   .pipe(gulp.dest('build/js/'))
@@ -97,7 +91,7 @@ gulp.task('js', function(){
 //Копируем JS-vendor
 gulp.task('js-vendor', function(){
   return gulp.src('src/js/vendor/*.js')
-  .on('error', console.log)
+  .pipe(plumber())
   .pipe(uglify())
   .pipe(concat('vendor.js'))
   .pipe(gulp.dest('build/js/vendor/'))
@@ -108,7 +102,7 @@ gulp.task('js-vendor', function(){
 // Favicon
 gulp.task('favicon', function(){
   return gulp.src('src/favicon/*')
-  .on('error', console.log)
+  .pipe(plumber())
   .pipe(gulp.dest('build/favicon/'))
   .pipe(browserSync.stream());
 });
@@ -116,7 +110,7 @@ gulp.task('favicon', function(){
 // Fonts
 gulp.task('fonts', function(){
   return gulp.src('src/fonts/*')
-  .on('error', console.log)
+  .pipe(plumber())
   .pipe(gulp.dest('build/css/fonts/'))
   .pipe(browserSync.stream());
 });
