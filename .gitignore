@@ -1,2 +1,9 @@
 /node_modules/
 /src
+.idea/copyright/
+.idea/gudkov.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+
+build/

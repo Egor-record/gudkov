@@ -1,6 +1,1 @@
-New boilerpalte
-
-gulp
-libsass
-browsersync
-webpack
+Тестовое задание для проекта. Рабочая ссылка - http://waxhands-spb.ru/mundep/index.html
