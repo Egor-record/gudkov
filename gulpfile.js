@@ -1,6 +1,6 @@
 var gulp = require('gulp'), // Сам Gulp
     concat = require('gulp-concat'),// Склейка файлов
-    browserSync  = require('browser-sync'), // BrowserSync
+
     
     jade = require('gulp-jade'), // Jade обработчик html
     
@@ -17,6 +17,7 @@ var gulp = require('gulp'), // Сам Gulp
     watch = require('gulp-watch');
 
 
+
 //Собираем Jade ( html )
 gulp.task('jade-templates', function() {
   return gulp.src(['./src/jade/*.jade','!./src/jade/_*.jade'])
@@ -25,8 +26,7 @@ gulp.task('jade-templates', function() {
        pretty: true
     }))
     .on('error', console.log)
-    .pipe(gulp.dest('./build/'))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest('./build/'));
   });
 
 // Собираем CSS из SASS файлов
@@ -47,8 +47,7 @@ gulp.task('sass-dev', function() {
      }))
     .pipe(cssnano())
     // .pipe(sourcemaps.write())
-    .pipe(gulp.dest('build/css/'))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest('build/css/'));
 });
 
 gulp.task('sass-prod', function() {
@@ -66,8 +65,7 @@ gulp.task('sass-prod', function() {
       cascade: true
      }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('build/css/'))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest('build/css/'));
 });
 
 //Сжатие изображений
@@ -83,8 +81,7 @@ gulp.task('js', function(){
   .pipe(plumber())
   .pipe(uglify())
   .pipe(concat('script.js'))
-  .pipe(gulp.dest('build/js/'))
-  .pipe(browserSync.stream());
+  .pipe(gulp.dest('build/js/'));
 });
 
 
@@ -94,8 +91,7 @@ gulp.task('js-vendor', function(){
   .pipe(plumber())
   .pipe(uglify())
   .pipe(concat('vendor.js'))
-  .pipe(gulp.dest('build/js/vendor/'))
-  .pipe(browserSync.stream());
+  .pipe(gulp.dest('build/js/vendor/'));
 });
 
 
@@ -103,26 +99,21 @@ gulp.task('js-vendor', function(){
 gulp.task('favicon', function(){
   return gulp.src('src/favicon/*')
   .pipe(plumber())
-  .pipe(gulp.dest('build/favicon/'))
-  .pipe(browserSync.stream());
+  .pipe(gulp.dest('build/favicon/'));
 });
 
 // Fonts
 gulp.task('fonts', function(){
   return gulp.src('src/fonts/*')
   .pipe(plumber())
-  .pipe(gulp.dest('build/css/fonts/'))
-  .pipe(browserSync.stream());
+  .pipe(gulp.dest('build/css/fonts/'));
 });
 
 
 
 // WATCH
 gulp.task('default', ['jade-templates','sass-dev','img','js-vendor','js','favicon','fonts'], function () {
-    
-    browserSync.init({
-      server : './build'
-    });
+
 
     watch('./src/jade/**/*.jade', function() {
       gulp.start('jade-templates');
